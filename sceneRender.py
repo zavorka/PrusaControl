@@ -4,6 +4,7 @@ __author__ = 'Tibor Vavra'
 
 #import inspect
 #import logging
+import codecs
 from copy import deepcopy
 from pprint import pprint
 
@@ -474,7 +475,7 @@ class GLWidget(QGLWidget):
         self.picking_render()
         viewport = glGetIntegerv(GL_VIEWPORT)
         color = glReadPixels(x, viewport[3] - y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE)
-        return int(color[0])+(256*int(color[1]))+(256*256*int(color[2]))
+        return int(codecs.encode(color, 'hex'), 16)
 
 
 
