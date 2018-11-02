@@ -17,10 +17,9 @@ from shutil import copyfile, Error
 import numpy
 #import pyrr
 import urllib3
-from PyQt4.QtCore import QObject
-from PyQt4.QtCore import QTranslator, Qt, QPoint
-#from PyQt4 import QtGui
-from PyQt4.QtGui import QApplication
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QTranslator, Qt, QPoint
+from PyQt5.QtWidgets import QApplication
 from zeroconf import Zeroconf, ServiceBrowser, ServiceInfo
 
 import sceneData
@@ -1487,7 +1486,7 @@ class Controller(QObject):
         self.set_progress_bar(0.0)
 
     def wheel_event(self, event):
-        self.view.set_zoom(event.delta() / 120)
+        self.view.set_zoom(event.angleDelta().y() / 120)
 
         event.accept()
         self.update_scene()

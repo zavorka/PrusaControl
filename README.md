@@ -19,7 +19,7 @@ Some features are still in development
 ### Dependencies (tested version)
 
 - python (3.5.x)
-- PyQt4 (4.11.4)
+- PyQt5 (5.11.2)
 - numpy (1.12.1)
 - numpy-stl (2.2.3)
 - pyrr (0.8.3)

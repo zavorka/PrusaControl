@@ -4,8 +4,7 @@ import atexit
 #import inspect
 #from msilib.schema import File
 
-#from PyQt4.QtGui import QApplication, QIcon
-#from PyQt4.QtCore import QCoreApplication
+from PyQt5.QtWidgets import (QApplication, QSplashScreen, QProgressBar, QLabel)
 
 from controller import Controller
 from parameters import AppParameters
@@ -64,7 +63,7 @@ class EventLoopRunner(QObject):
 
         if self.progressbar_on:
             self.progressBar = QProgressBar(self.splash)
-            self.progressBar.setStyleSheet(str(self.css.readAll(), "utf-8"))
+            self.progressBar.setStyleSheet(str(self.css.readAll()))
             self.progressBar.setObjectName("splash_progressbar")
             self.progressBar.setFormat("")
             self.progressBar.setFixedWidth(209)
@@ -141,7 +140,7 @@ def main():
         file = QFile(base_dir + "data/my_stylesheet_without_f.qss")
     file.open(QFile.ReadOnly)
     
-    StyleSheet_tmp = str(file.readAll(), 'utf-8')
+    StyleSheet_tmp = str(file.readAll())
     if system_platform in ['Windows']:
         StyleSheet = StyleSheet_tmp.replace('base_dir', "")
     else:

@@ -23,13 +23,11 @@ import math
 import numpy
 import time
 
-#from PyQt4.QtCore import QTimer
-#from PyQt4.QtGui import QColor, QCursor
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.QtOpenGL import *
-from PyQt4 import QtCore
-
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtOpenGL import *
+from PyQt5 import QtCore
+from PyQt5.QtGui import QOpenGLShaderProgram, QOpenGLShader
 from PIL.Image import *
 
 import controller
@@ -58,7 +56,7 @@ class GLWidget(QGLWidget):
             f.setSamples(4)
             f.setSwapInterval(1)
             f.setProfile(QGLFormat.CoreProfile)
-            c = QGLContext(f, None)
+            c = QGLContext(f)
             QGLWidget.__init__(self, c, parent)
         else:
             QGLWidget.__init__(self, parent)
@@ -78,8 +76,8 @@ class GLWidget(QGLWidget):
         self.hitPoint = numpy.array([0.,0.,0.])
         self.oldHitPoint = numpy.array([0.,0.,0.])
 
-        self.lightning_shader_program = QGLShaderProgram()
-        self.variable_layer_shader_program = QGLShaderProgram()
+        self.lightning_shader_program = QOpenGLShaderProgram()
+        self.variable_layer_shader_program = QOpenGLShaderProgram()
 
         #properties definition
         self.xRot = 0
@@ -420,16 +418,16 @@ class GLWidget(QGLWidget):
 
 
 
-        if self.lightning_shader_program.addShaderFromSourceFile(QGLShader.Vertex, self.controller.app_config.local_path + "data/shaders/lightning.vert") \
-                and self.lightning_shader_program.addShaderFromSourceFile(QGLShader.Fragment, self.controller.app_config.local_path + "data/shaders/lightning.frag"):
+        if self.lightning_shader_program.addShaderFromSourceFile(QOpenGLShader.Vertex, self.controller.app_config.local_path + "data/shaders/lightning.vert") \
+                and self.lightning_shader_program.addShaderFromSourceFile(QOpenGLShader.Fragment, self.controller.app_config.local_path + "data/shaders/lightning.frag"):
             self.lightning_shader_program.link()
             if not self.lightning_shader_program.log():
                 self.lightning_shader_ok = True
             self.lightning_shader_program.release()
 
 
-        if self.variable_layer_shader_program.addShaderFromSourceFile(QGLShader.Vertex, self.controller.app_config.local_path + "data/shaders/variable_height_slic3r.vert") \
-                and self.variable_layer_shader_program.addShaderFromSourceFile(QGLShader.Fragment, self.controller.app_config.local_path + "data/shaders/variable_height_slic3r.frag"):
+        if self.variable_layer_shader_program.addShaderFromSourceFile(QOpenGLShader.Vertex, self.controller.app_config.local_path + "data/shaders/variable_height_slic3r.vert") \
+                and self.variable_layer_shader_program.addShaderFromSourceFile(QOpenGLShader.Fragment, self.controller.app_config.local_path + "data/shaders/variable_height_slic3r.frag"):
             self.variable_layer_shader_program.link()
             if not self.variable_layer_shader_program.log():
                 self.variable_layer_shader_ok = True

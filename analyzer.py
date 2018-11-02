@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-from PyQt4.QtCore import QObject
-from PyQt4.QtCore import QThread
-from PyQt4.QtCore import pyqtSignal
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QThread
+from PyQt5.QtCore import pyqtSignal
 
 __author__ = 'Tibor Vavra'
 

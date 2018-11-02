@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from PyQt4.QtGui import QColor, QScrollArea, QLayout, QAction, QMenu, QLineEdit, QFormLayout
-from PyQt4.QtGui import QColorDialog
-from PyQt4.QtGui import QStandardItem
+from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import (QScrollArea, QLayout, QAction, QMenu, QLineEdit, QFormLayout)
+
+from PyQt5.QtWidgets import QColorDialog
+from PyQt5.QtGui import QStandardItem
 
 __author__ = 'Tibor Vavra'
 
@@ -13,18 +15,23 @@ from copy import deepcopy
 import numpy as np
 import time
 #from OpenGL.GL import *
-from PyQt4.QtCore import QFileInfo
-from PyQt4.QtCore import QPropertyAnimation
-from PyQt4.QtCore import QTextCodec
+from PyQt5.QtCore import QFileInfo
+from PyQt5.QtCore import QPropertyAnimation
+from PyQt5.QtCore import QTextCodec
 
-from PyQt4.QtCore import Qt, SIGNAL, QSettings, QFile, QIODevice, QVariant, QEvent
-from PyQt4.QtGui import QFont, QFontDatabase, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMainWindow, \
-QMessageBox, QProgressBar, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget, \
-QPainter, QPainterPath, QPen, QSlider, QStyleOptionSlider, QDialog, QDialogButtonBox, \
-QComboBox, QCheckBox, QApplication, QSpinBox, QDoubleSpinBox, QFileDialog, QStyleFactory, \
-QScrollArea
+from PyQt5.QtCore import Qt, QSettings, QFile, QIODevice, QVariant, QEvent
+from PyQt5.QtGui import QFont, QFontDatabase, QPainter, QPainterPath, QPen
+from PyQt5.QtWidgets import (QGridLayout, QGroupBox,
+                             QHBoxLayout, QLabel, QMainWindow, QMessageBox,
+                             QProgressBar, QPushButton, QSizePolicy, QSpacerItem,
+                             QVBoxLayout, QWidget,
+                             QSlider, QStyleOptionSlider, QDialog, QDialogButtonBox,
+                             QComboBox, QCheckBox, QApplication, QSpinBox,
+                             QDoubleSpinBox, QFileDialog, QStyleFactory)
 
-from PyQt4.QtOpenGL import QGLWidget
+from PyQt5.QtWidgets import QScrollArea
+
+from PyQt5.QtOpenGL import QGLWidget
 
 import projectFile
 import sceneRender
@@ -814,8 +821,8 @@ class PrusaControlView(QMainWindow):
 
         #print("initialization of PrusaControlView")
         self.settings = QSettings("Prusa Research", "PrusaControl")
-        self.restoreGeometry(self.settings.value("geometry", ""))
-        self.restoreState(self.settings.value("windowState", ""))
+        self.restoreGeometry(self.settings.value("geometry", b''))
+        self.restoreState(self.settings.value("windowState", b''))
 
         #print("font load of PrusaControlView")
         font_id = QFontDatabase.addApplicationFont(self.controller.app_config.local_path + "data/font/TitilliumWeb-Light.ttf")
@@ -1340,7 +1347,7 @@ class PrusaControlView(QMainWindow):
 
         saveBWLayout.addWidget(self.saveButton)
         saveBWLayout.addWidget(self.saveMenuButton)
-        saveBWLayout.setMargin(0)
+        saveBWLayout.setContentsMargins(0, 0, 0, 0)
         self.saveBW = QWidget()
         self.saveBW.setLayout(saveBWLayout)
         self.saveBW.setObjectName('saveBW')
@@ -2719,7 +2726,7 @@ class PrusaControlView(QMainWindow):
         filters = "Prusa (*.prusa *.PRUSA)"
         title = 'Open project file'
         open_at = self.settings.value("project_path", "")
-        data = QFileDialog.getOpenFileName(None, title, open_at, filters)
+        data = QFileDialog.getOpenFileName(None, title, open_at, filters)[0]
         if data:
             self.settings.setValue("project_path", QFileInfo(data).absolutePath())
         return data
@@ -2728,7 +2735,7 @@ class PrusaControlView(QMainWindow):
         filters = "GCODE (*.gcode *.GCODE *.Gcode)"
         title = "Import gcode file"
         open_at = self.settings.value("gcode_path", "")
-        data = QFileDialog.getOpenFileName(None, title, open_at, filters)
+        data = QFileDialog.getOpenFileName(None, title, open_at, filters)[0]
         if data:
             self.settings.setValue("gcode_path", QFileInfo(data).absolutePath())
         return data
@@ -2737,7 +2744,7 @@ class PrusaControlView(QMainWindow):
         filters = "STL (*.stl *.STL)"
         title = "Import model file"
         open_at = self.settings.value("model_path", "")
-        data = QFileDialog.getOpenFileNames(None, title, open_at, filters)
+        data = QFileDialog.getOpenFileNames(None, title, open_at, filters)[0]
         if data:
             self.settings.setValue("model_path", QFileInfo(data[0]).absolutePath())
         filenames_list = []
@@ -2749,7 +2756,7 @@ class PrusaControlView(QMainWindow):
         filters = "Prusa (*.prusa *.PRUSA)"
         title = 'Save project file'
         open_at = self.settings.value("project_path", "")
-        data = QFileDialog.getSaveFileName(None, title, open_at, filters)
+        data = QFileDialog.getSaveFileName(None, title, open_at, filters)[0]
         if data:
             self.settings.setValue("project_path", QFileInfo(data).absolutePath())
         if data == '':
@@ -2763,7 +2770,7 @@ class PrusaControlView(QMainWindow):
         open_at = self.settings.value("gcode_path", "")
         filename_list = filename.split('/')
         open_at += '/' + filename_list[-1]
-        data = QFileDialog.getSaveFileName(None, title, open_at, filters)
+        data = QFileDialog.getSaveFileName(None, title, open_at, filters)[0]
         if data:
             self.settings.setValue("gcode_path", QFileInfo(data).absolutePath())
         return data
